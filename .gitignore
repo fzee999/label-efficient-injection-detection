@@ -1,0 +1,21 @@
+# Personal notes: never published.
+private/
+
+# Environment and secrets
+.venv/
+.env
+
+# Downloaded data and caches are rebuilt by the scripts; the source dataset's
+# license is not stated, so it is never redistributed from this repository.
+data/raw/
+data/cache/
+
+# Python
+__pycache__/
+*.pyc
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
