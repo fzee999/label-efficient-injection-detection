@@ -1,0 +1,32 @@
+{
+  "pool_and_test": {
+    "train_rows": 8236,
+    "removed_in_test": 80,
+    "removed_conflicting_labels": 5,
+    "removed_duplicates": 67,
+    "pool_rows": 8084,
+    "test_rows": 2060
+  },
+  "ood_deepset": {
+    "removed_in_pool": 1,
+    "rows": 115,
+    "lang": {
+      "en": 76,
+      "de": 38,
+      "es": 1
+    },
+    "roleplay": 4
+  },
+  "ood_lab": {
+    "direct": 15,
+    "indirect": 15,
+    "leakage": 15,
+    "benign_question": 7,
+    "policy_doc": 4
+  },
+  "label_balance": {
+    "pool_injection_pct": 29.9,
+    "test_injection_pct": 31.6,
+    "ood_deepset_injection_pct": 51.3
+  }
+}
