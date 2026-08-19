@@ -1,0 +1,59 @@
+{
+  "pool": {
+    "rows": 8084,
+    "dim": 768,
+    "seconds": 0.1,
+    "nan": 0,
+    "norm_min": 1.0,
+    "norm_max": 1.0
+  },
+  "test": {
+    "rows": 2060,
+    "dim": 768,
+    "seconds": 0.0,
+    "nan": 0,
+    "norm_min": 1.0,
+    "norm_max": 1.0
+  },
+  "ood_deepset": {
+    "rows": 115,
+    "dim": 768,
+    "seconds": 0.0,
+    "nan": 0,
+    "norm_min": 1.0,
+    "norm_max": 1.0
+  },
+  "ood_lab": {
+    "rows": 56,
+    "dim": 768,
+    "seconds": 0.0,
+    "nan": 0,
+    "norm_min": 1.0,
+    "norm_max": 1.0
+  },
+  "test_nearest_pool_neighbour_same_label_pct": 98.9,
+  "test_nearest_pool_cosine_bands": {
+    "0.99+": {
+      "test_texts": 61,
+      "nn_same_label_pct": 100.0
+    },
+    "0.95-0.99": {
+      "test_texts": 258,
+      "nn_same_label_pct": 100.0
+    },
+    "0.90-0.95": {
+      "test_texts": 296,
+      "nn_same_label_pct": 100.0
+    },
+    "0.00-0.90": {
+      "test_texts": 1445,
+      "nn_same_label_pct": 98.4
+    }
+  },
+  "pool_texts_with_near_copy_in_pool": 225,
+  "mean_cos_to_own_centroid": {
+    "class0": 0.719,
+    "class1": 0.804
+  },
+  "cos_between_class_centroids": 0.86
+}

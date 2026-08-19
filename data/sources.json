@@ -1,0 +1,34 @@
+{
+  "safeguard/train": {
+    "repo": "xTRam1/safe-guard-prompt-injection",
+    "revision": "a3a877d608f37b7d20d9945671902df895ecdb46",
+    "license": "not stated",
+    "url": "https://huggingface.co/datasets/xTRam1/safe-guard-prompt-injection/resolve/refs%2Fconvert%2Fparquet/default/train/0000.parquet",
+    "sha256": "0f1879d20f98e8b47589453cd7dceb71f4a94e4abec8b0cf809188d1aeca3b3e",
+    "rows": 8236
+  },
+  "safeguard/test": {
+    "repo": "xTRam1/safe-guard-prompt-injection",
+    "revision": "a3a877d608f37b7d20d9945671902df895ecdb46",
+    "license": "not stated",
+    "url": "https://huggingface.co/datasets/xTRam1/safe-guard-prompt-injection/resolve/refs%2Fconvert%2Fparquet/default/test/0000.parquet",
+    "sha256": "99981a32fa354d9f541aea7214c15fed258c67639dcb3da5751968b043d8f742",
+    "rows": 2060
+  },
+  "deepset/train": {
+    "repo": "deepset/prompt-injections",
+    "revision": "4f61ecb038e9c3fb77e21034b22511b523772cdd",
+    "license": "apache-2.0",
+    "url": "https://huggingface.co/datasets/deepset/prompt-injections/resolve/refs%2Fconvert%2Fparquet/default/train/0000.parquet",
+    "sha256": "2e10bc7ab30f542c97e4e83e2a5683000b5057d25ec10908784c631d44124c04",
+    "rows": 546
+  },
+  "deepset/test": {
+    "repo": "deepset/prompt-injections",
+    "revision": "4f61ecb038e9c3fb77e21034b22511b523772cdd",
+    "license": "apache-2.0",
+    "url": "https://huggingface.co/datasets/deepset/prompt-injections/resolve/refs%2Fconvert%2Fparquet/default/test/0000.parquet",
+    "sha256": "39ac797cabc157eeed58435a08593b2952bb6cb16fc394a2d383f447cc7b246e",
+    "rows": 116
+  }
+}
