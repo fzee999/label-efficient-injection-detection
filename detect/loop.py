@@ -6,6 +6,7 @@ from dataclasses import dataclass
 import numpy as np
 
 from .curve import fit, score_row
+from .strategies import STRATEGIES
 
 SEED_SIZE, BATCH, BUDGET = 20, 20, 600   # pre-registered protocol
 
@@ -29,14 +30,6 @@ class PerfectLabeler:
 
     def label(self, idx: np.ndarray) -> tuple[np.ndarray, int]:
         return self.y[idx], len(idx)
-
-
-def select_random(ctx: Context, k: int) -> np.ndarray:
-    """Next k unlabeled items in the seed's shuffled order."""
-    return np.array([i for i in ctx.order if not ctx.labeled[i]][:k])
-
-
-STRATEGIES = {"random": select_random}
 
 
 def run(strategy: str, labeler, seed: int, x: np.ndarray, y_true: np.ndarray, sets: dict):

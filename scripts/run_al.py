@@ -17,7 +17,8 @@ import pandas as pd  # noqa: E402
 from detect.config import RESULTS, SEEDS  # noqa: E402
 from detect.curve import median_censored, summarise  # noqa: E402
 from detect.embed import embeddings  # noqa: E402
-from detect.loop import STRATEGIES, PerfectLabeler, run  # noqa: E402
+from detect.loop import PerfectLabeler, run  # noqa: E402
+from detect.strategies import STRATEGIES  # noqa: E402
 from detect.model import evaluation_sets  # noqa: E402
 from detect.splits import load_split  # noqa: E402
 
