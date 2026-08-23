@@ -52,6 +52,13 @@ def curve_area(budgets: list[int], f1: list[float], lo: int = AUC_RANGE[0], hi: 
     return float(np.trapezoid(f, b) / (hi - lo))
 
 
+def median_censored(vals: list) -> str:
+    """Median where None means 'not reached within the budget'."""
+    x = sorted(np.inf if v is None else v for v in vals)
+    m = float(np.median(x))
+    return f"> {AUC_RANGE[1]}" if np.isinf(m) else f"{m:g}"
+
+
 def summarise(df) -> dict:
     """Per-seed labels-to-target and curve area for one strategy/labeler."""
     out = {"target_95": [], **{k: [] for k in SECONDARY_TARGETS}, "auc_20_600": []}
