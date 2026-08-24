@@ -14,6 +14,7 @@ import matplotlib  # noqa: E402
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
+import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
 from detect.config import RESULTS  # noqa: E402
@@ -23,8 +24,16 @@ from detect.strategies import STRATEGIES  # noqa: E402
 # validated categorical slots 1-4, light surface (adjacent CVD ΔE ≥ 9.1)
 COLORS = {"random": "#2a78d6", "uncertainty": "#eb6834", "diversity": "#1baf7a", "hybrid": "#eda100"}
 SURFACE, INK, INK2, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#e4e3df"
-PANELS = [("test_f1", "Test set", CEILING_F1, (0.86, 1.0)),
-          ("test_far_f1", "Test texts with no close pool match", CEILING_FAR_F1, (0.76, 0.97))]
+PANELS = [("test_f1", "Test set", CEILING_F1),
+          ("test_far_f1", "Test texts with no close pool match", CEILING_FAR_F1)]
+TITLES = {"perfect": "dataset labels", "llm": "LLM labels"}
+
+
+def y_range(curves: dict, col: str, ceiling: float) -> tuple[float, float]:
+    """From just below the lowest mean (after the first round) to just above the ceiling."""
+    lows = [df[df.budget >= 40].groupby("budget")[col].mean().min() for df in curves.values()]
+    lo = np.floor((min(lows) - 0.015) / 0.02) * 0.02
+    return float(lo), float(max(ceiling + 0.015, 1.0 if ceiling > 0.97 else ceiling + 0.02))
 
 
 def spread_labels(ys: dict, gap: float) -> dict:
@@ -47,7 +56,8 @@ def main() -> int:
     plt.rcParams.update({"font.size": 9, "axes.edgecolor": INK2, "axes.labelcolor": INK2,
                          "xtick.color": INK2, "ytick.color": INK2, "text.color": INK})
     fig, axes = plt.subplots(1, 2, figsize=(11, 4.4), facecolor=SURFACE, sharex=True)
-    for ax, (col, title, ceiling, ylim) in zip(axes, PANELS):
+    for ax, (col, title, ceiling) in zip(axes, PANELS):
+        ylim = y_range(curves, col, ceiling)
         ax.set_facecolor(SURFACE)
         ends = {}
         for s, df in curves.items():
@@ -71,8 +81,10 @@ def main() -> int:
         for side in ("top", "right"):
             ax.spines[side].set_visible(False)
     axes[0].set_ylabel("F1, injection class (mean of 10 seeds, band = ±1 std)")
-    axes[0].legend(loc="lower right", frameon=False, fontsize=8.5)
-    fig.suptitle(f"Active learning vs random labeling ({args.labeler} labels)",
+    handles, names = axes[0].get_legend_handles_labels()
+    fig.legend(handles, names, loc="upper right", ncol=len(names), frameon=False, fontsize=8.5,
+               bbox_to_anchor=(0.96, 1.0))
+    fig.suptitle(f"Active learning vs random labeling ({TITLES.get(args.labeler, args.labeler)})",
                  x=0.06, ha="left", fontsize=11, color=INK)
     fig.tight_layout(rect=(0, 0, 0.96, 1))
 

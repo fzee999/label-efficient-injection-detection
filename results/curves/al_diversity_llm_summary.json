@@ -1,0 +1,50 @@
+{
+  "target_95": [
+    40,
+    40,
+    40,
+    null,
+    40,
+    null,
+    null,
+    40,
+    null,
+    140
+  ],
+  "test_99": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "far_99": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "auc_20_600": [
+    0.9092,
+    0.8958,
+    0.87,
+    0.8705,
+    0.8927,
+    0.8308,
+    0.7979,
+    0.8681,
+    0.8667,
+    0.9087
+  ]
+}

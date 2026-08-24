@@ -11,13 +11,36 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
 from detect.config import RESULTS  # noqa: E402
 from detect.curve import median_censored, summarise  # noqa: E402
+from detect.embed import embeddings  # noqa: E402
+from detect.loop import LLMLabeler, PerfectLabeler  # noqa: E402
+from detect.splits import load_split  # noqa: E402
 from detect.strategies import STRATEGIES  # noqa: E402
 
+LABELERS = {"perfect": PerfectLabeler, "llm": LLMLabeler}
+
 BUDGETS = [40, 100, 200, 600]
+NEAR_COPY = 0.95
+
+
+def labeled_set_stats(strategy: str, labeler: str, x: np.ndarray, y: np.ndarray, observed: np.ndarray) -> dict:
+    """Over the final 600 labels: wrong labels by direction, and near-duplicates."""
+    q = pd.read_csv(RESULTS / "queries" / f"{strategy}_{labeler}.csv")
+    rows = []
+    for _, g in q.groupby("seed"):
+        i = g.pool_index.to_numpy()
+        sim = x[i] @ x[i].T
+        np.fill_diagonal(sim, 0)
+        rows.append([((y[i] == 1) & (observed[i] == 0)).sum(), ((y[i] == 0) & (observed[i] == 1)).sum(),
+                     (sim.max(axis=1) >= NEAR_COPY).sum()])
+    a = np.mean(rows, axis=0)
+    return {"wrong_label_missed_injection": round(float(a[0]), 1),
+            "wrong_label_false_injection": round(float(a[1]), 1),
+            "near_copies_in_labeled_set": round(float(a[2]), 1)}
 
 
 def main() -> int:
@@ -28,6 +51,8 @@ def main() -> int:
     curves = {s: pd.read_csv(f) for s in STRATEGIES
               if (f := RESULTS / "curves" / f"al_{s}_{args.labeler}.csv").exists()}
     base = summarise(curves["random"])["auc_20_600"]
+    x, y = embeddings("pool"), load_split("pool")["label"].to_numpy()
+    observed = LABELERS[args.labeler](y).y
     rows = []
     for s, df in curves.items():
         sm = summarise(df)
@@ -48,6 +73,7 @@ def main() -> int:
         row["lab_f1_at_600"] = round(at600.lab_f1.mean(), 3)
         row["batch_cos"] = round(later.batch_mean_cos.mean(), 3)
         row["batch_injection_pct"] = round(100 * later.batch_injection_share.mean(), 1)
+        row.update(labeled_set_stats(s, args.labeler, x, y, observed))
         rows.append(row)
 
     table = pd.DataFrame(rows)

@@ -4,7 +4,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
+import pandas as pd
 
+from .config import RESULTS
 from .curve import fit, score_row
 from .strategies import STRATEGIES
 
@@ -30,6 +32,21 @@ class PerfectLabeler:
 
     def label(self, idx: np.ndarray) -> tuple[np.ndarray, int]:
         return self.y[idx], len(idx)
+
+
+class LLMLabeler:
+    """Returns the LLM's frozen labels from step 11; no human labels."""
+    name = "llm"
+
+    def __init__(self, y: np.ndarray):
+        lab = pd.read_csv(RESULTS / "labeler" / "pool_labels.csv").sort_values("pool_index")
+        if len(lab) != len(y) or not (lab.pool_index.to_numpy() == np.arange(len(y))).all():
+            raise ValueError("LLM labels do not cover the pool exactly")
+        self.y = lab.label.to_numpy()
+        self.p = lab.p_injection.to_numpy()
+
+    def label(self, idx: np.ndarray) -> tuple[np.ndarray, int]:
+        return self.y[idx], 0
 
 
 def run(strategy: str, labeler, seed: int, x: np.ndarray, y_true: np.ndarray, sets: dict):

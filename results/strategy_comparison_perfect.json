@@ -19,7 +19,10 @@
     "deepset_auroc_at_600": 0.852,
     "lab_f1_at_600": 0.852,
     "batch_cos": 0.519,
-    "batch_injection_pct": 29.8
+    "batch_injection_pct": 29.8,
+    "wrong_label_missed_injection": 0.0,
+    "wrong_label_false_injection": 0.0,
+    "near_copies_in_labeled_set": 22.0
   },
   {
     "strategy": "uncertainty",
@@ -41,7 +44,10 @@
     "deepset_auroc_at_600": 0.862,
     "lab_f1_at_600": 0.856,
     "batch_cos": 0.55,
-    "batch_injection_pct": 34.9
+    "batch_injection_pct": 34.9,
+    "wrong_label_missed_injection": 0.0,
+    "wrong_label_false_injection": 0.0,
+    "near_copies_in_labeled_set": 14.6
   },
   {
     "strategy": "diversity",
@@ -63,7 +69,10 @@
     "deepset_auroc_at_600": 0.886,
     "lab_f1_at_600": 0.912,
     "batch_cos": 0.455,
-    "batch_injection_pct": 5.9
+    "batch_injection_pct": 5.9,
+    "wrong_label_missed_injection": 0.0,
+    "wrong_label_false_injection": 0.0,
+    "near_copies_in_labeled_set": 0.4
   },
   {
     "strategy": "hybrid",
@@ -85,6 +94,9 @@
     "deepset_auroc_at_600": 0.864,
     "lab_f1_at_600": 0.865,
     "batch_cos": 0.542,
-    "batch_injection_pct": 26.7
+    "batch_injection_pct": 26.7,
+    "wrong_label_missed_injection": 0.0,
+    "wrong_label_false_injection": 0.0,
+    "near_copies_in_labeled_set": 0.4
   }
 ]
