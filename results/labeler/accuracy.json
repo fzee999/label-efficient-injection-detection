@@ -1,0 +1,178 @@
+{
+  "scored_texts": 8044,
+  "excluded_dev_texts": 40,
+  "accuracy": 0.913,
+  "cohen_kappa": 0.7911,
+  "auroc": 0.9658,
+  "precision": 0.8608,
+  "recall": 0.8451,
+  "confusion": {
+    "tp": 2029,
+    "fp": 328,
+    "fn": 372,
+    "tn": 5315
+  },
+  "errors": {
+    "false_positive_share": 0.469,
+    "false_negative_share": 0.531
+  },
+  "calibration": [
+    {
+      "confidence": "0.50-0.60",
+      "texts": 457,
+      "accuracy": 0.5864
+    },
+    {
+      "confidence": "0.60-0.70",
+      "texts": 585,
+      "accuracy": 0.6564
+    },
+    {
+      "confidence": "0.70-0.80",
+      "texts": 712,
+      "accuracy": 0.8146
+    },
+    {
+      "confidence": "0.80-0.90",
+      "texts": 1288,
+      "accuracy": 0.9084
+    },
+    {
+      "confidence": "0.90-0.95",
+      "texts": 1231,
+      "accuracy": 0.9683
+    },
+    {
+      "confidence": "0.95-0.99",
+      "texts": 2526,
+      "accuracy": 0.9917
+    },
+    {
+      "confidence": "0.99-1.00",
+      "texts": 1245,
+      "accuracy": 1.0
+    }
+  ],
+  "coverage": [
+    {
+      "threshold": 0.6,
+      "share_confident": 0.9432,
+      "accuracy_confident": 0.9326,
+      "accuracy_rest": 0.5864
+    },
+    {
+      "threshold": 0.7,
+      "share_confident": 0.8705,
+      "accuracy_confident": 0.9557,
+      "accuracy_rest": 0.6257
+    },
+    {
+      "threshold": 0.8,
+      "share_confident": 0.7819,
+      "accuracy_confident": 0.9717,
+      "accuracy_rest": 0.7024
+    },
+    {
+      "threshold": 0.9,
+      "share_confident": 0.6218,
+      "accuracy_confident": 0.988,
+      "accuracy_rest": 0.7896
+    },
+    {
+      "threshold": 0.95,
+      "share_confident": 0.4688,
+      "accuracy_confident": 0.9944,
+      "accuracy_rest": 0.8411
+    },
+    {
+      "threshold": 0.99,
+      "share_confident": 0.1548,
+      "accuracy_confident": 1.0,
+      "accuracy_rest": 0.897
+    }
+  ],
+  "tags_missed_injections": {
+    "mentions_instructions": {
+      "all_injections_pct": 51.0,
+      "missed_pct": 57.0
+    },
+    "mentions_ai": {
+      "all_injections_pct": 33.8,
+      "missed_pct": 24.7
+    },
+    "override_phrase": {
+      "all_injections_pct": 25.2,
+      "missed_pct": 5.1
+    },
+    "persona": {
+      "all_injections_pct": 29.9,
+      "missed_pct": 23.9
+    },
+    "sensitive_request": {
+      "all_injections_pct": 41.2,
+      "missed_pct": 16.7
+    },
+    "task_format": {
+      "all_injections_pct": 0.4,
+      "missed_pct": 0.3
+    },
+    "act_as_request": {
+      "all_injections_pct": 4.2,
+      "missed_pct": 2.4
+    },
+    "jailbreak_persona": {
+      "all_injections_pct": 8.7,
+      "missed_pct": 5.4
+    },
+    "completion_leak": {
+      "all_injections_pct": 17.4,
+      "missed_pct": 48.9
+    },
+    "long": {
+      "all_injections_pct": 10.1,
+      "missed_pct": 7.5
+    }
+  },
+  "tags_false_alarms": {
+    "mentions_instructions": {
+      "all_benign_pct": 2.7,
+      "false_alarm_pct": 2.1
+    },
+    "mentions_ai": {
+      "all_benign_pct": 0.6,
+      "false_alarm_pct": 1.8
+    },
+    "override_phrase": {
+      "all_benign_pct": 0.2,
+      "false_alarm_pct": 0.3
+    },
+    "persona": {
+      "all_benign_pct": 9.7,
+      "false_alarm_pct": 28.7
+    },
+    "sensitive_request": {
+      "all_benign_pct": 1.5,
+      "false_alarm_pct": 2.7
+    },
+    "task_format": {
+      "all_benign_pct": 17.0,
+      "false_alarm_pct": 47.0
+    },
+    "act_as_request": {
+      "all_benign_pct": 1.9,
+      "false_alarm_pct": 5.8
+    },
+    "jailbreak_persona": {
+      "all_benign_pct": 0.1,
+      "false_alarm_pct": 0.9
+    },
+    "completion_leak": {
+      "all_benign_pct": 0.2,
+      "false_alarm_pct": 0.9
+    },
+    "long": {
+      "all_benign_pct": 6.3,
+      "false_alarm_pct": 12.5
+    }
+  }
+}

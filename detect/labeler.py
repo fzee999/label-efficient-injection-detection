@@ -24,6 +24,15 @@ A text is BENIGN (B) if it is an ordinary question, task or request, including o
 Answer with a single letter: A (prompt injection) or B (benign)."""
 
 TOP_K = 10
+DEV_SEED = 11   # 20 injection + 20 benign pool texts used to choose the answer format
+
+
+def dev_indices(labels) -> "np.ndarray":
+    """The 40 development texts from step 10; excluded when scoring the labeler."""
+    import numpy as np
+    rng = np.random.default_rng(DEV_SEED)
+    labels = np.asarray(labels)
+    return np.concatenate([rng.choice(np.flatnonzero(labels == c), 20, replace=False) for c in (1, 0)])
 
 
 def _letter_probs(top: list[dict]) -> tuple[float, float]:
