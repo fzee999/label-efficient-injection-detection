@@ -16,7 +16,7 @@ CACHE = DATA / "cache"      # embeddings and other derived arrays (git-ignored)
 SPLITS = DATA / "splits"    # the fixed pool / test / OOD id lists (committed)
 RESULTS = ROOT / "results"
 
-OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434").rstrip("/")
+OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://127.0.0.1:11434").rstrip("/")
 EMBED_MODEL = os.environ.get("EMBED_MODEL", "nomic-embed-text")
 # nomic-embed-text was trained with task prefixes; "classification: " is the
 # one meant for features that feed a classifier.
