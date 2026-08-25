@@ -20,6 +20,7 @@ from scipy.stats import t as student_t, ttest_rel, wilcoxon  # noqa: E402
 
 from detect.config import RESULTS  # noqa: E402
 from detect.curve import CEILING_F1, median_censored, summarise  # noqa: E402
+from detect.style import COLORS, DPI, INK2, SURFACE, apply, tidy  # noqa: E402
 
 STRATS = ["random", "uncertainty", "diversity", "hybrid"]
 LABELERS = ["perfect", "llm", "routed80", "routed90"]
@@ -116,37 +117,31 @@ def main() -> int:
 
 
 def headline_figure(path: Path) -> None:
-    colors = {"random": "#2a78d6", "uncertainty": "#eb6834", "hybrid": "#eda100"}
     panels = [("perfect", "Dataset labels"), ("llm", "LLM labels only"), ("routed90", "LLM, human below 0.9")]
-    surface, ink2, grid = "#fcfcfb", "#52514e", "#e4e3df"
-    plt.rcParams.update({"font.size": 9, "axes.edgecolor": ink2, "axes.labelcolor": ink2,
-                         "xtick.color": ink2, "ytick.color": ink2})
-    fig, axes = plt.subplots(1, 3, figsize=(12, 4.2), sharey=True, facecolor=surface)
+    apply()
+    fig, axes = plt.subplots(1, 3, figsize=(12, 4.2), sharey=True, facecolor=SURFACE)
     for ax, (lab, title) in zip(axes, panels):
-        ax.set_facecolor(surface)
-        for s, c in colors.items():
+        tidy(ax)
+        for s in ["random", "uncertainty", "hybrid"]:
             df = pd.read_csv(RESULTS / "curves" / f"al_{s}_{lab}.csv")
             g = df.groupby("budget").test_f1
             m, sd, n = g.mean(), g.std(), g.count()
             half = student_t.ppf(0.975, n - 1) * sd / np.sqrt(n)
-            ax.fill_between(m.index, m - half, m + half, color=c, alpha=0.18, linewidth=0)
-            ax.plot(m.index, m.values, color=c, linewidth=2, label=s)
-        ax.axhline(CEILING_F1, color=ink2, linewidth=1, linestyle=(0, (4, 3)))
+            ax.fill_between(m.index, m - half, m + half, color=COLORS[s], alpha=0.18, linewidth=0)
+            ax.plot(m.index, m.values, color=COLORS[s], linewidth=2, label=s)
+        ax.axhline(CEILING_F1, color=INK2, linewidth=1, linestyle=(0, (4, 3)))
         ax.set_title(title, loc="left", fontsize=10)
         ax.set_xlim(20, 600)
         ax.set_ylim(0.90, 0.995)
         ax.set_xlabel("labels used")
-        ax.grid(axis="y", color=grid, linewidth=0.8)
-        for side in ("top", "right"):
-            ax.spines[side].set_visible(False)
-    axes[0].text(25, CEILING_F1 + 0.001, "all 8,084 dataset labels", color=ink2, fontsize=8, va="bottom")
+    # middle panel: no curve near the ceiling line
+    axes[1].text(25, CEILING_F1 + 0.001, "all 8,084 dataset labels", color=INK2, fontsize=8, va="bottom")
     axes[0].set_ylabel("test F1 (mean of 10 seeds, band = 95% CI)")
     handles, names = axes[0].get_legend_handles_labels()
     fig.legend(handles, names, loc="upper right", ncol=3, frameon=False, fontsize=8.5, bbox_to_anchor=(0.98, 1.0))
     fig.suptitle("Which strategy wins depends on who labels", x=0.06, ha="left", fontsize=11)
     fig.tight_layout(rect=(0, 0, 1, 0.95))
-    fig.savefig(path, dpi=160, facecolor=surface)
-
+    fig.savefig(path, dpi=DPI, facecolor=SURFACE)
 
 if __name__ == "__main__":
     raise SystemExit(main())

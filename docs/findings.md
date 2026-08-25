@@ -39,7 +39,7 @@ One correction made during analysis: an earlier note said LLM labels *reverse* u
 
 1. **Label choice beats label count.** With dataset labels, uncertainty sampling reaches 99% of the ceiling in a median of 60 labels against random's 260 (curve area +0.012, 10/10 seeds, Holm p < 0.0001), and at 600 labels both uncertainty (0.987) and hybrid (0.988) exceed the model trained on all 8,084 labels (0.983).
 2. **A noisy labeler turns uncertainty sampling against itself.** With LLM labels, 36% of the labels in uncertainty sampling's training set are wrong, against 9% for random. It repeatedly queries the injections the LLM calls benign (175 such labels against random's 27), which keeps that region ambiguous, so it queries near-copies of the same texts (104 near-duplicates against 15 with correct labels).
-3. **The hybrid strategy is the robust choice.** Its spread-out step forbids near-duplicates, which breaks the loop: with LLM labels it ends at F1 0.969 against random's 0.954 (10/10 seeds at 600 labels), and across routing thresholds it gives the best detector for every level of human effort.
+3. **The hybrid strategy is the robust choice.** Its spread-out step never chose a near-duplicate (the 0.4 per labeled set on average all sit in the random starting 20; uncertainty sampling's set has 104), which breaks the loop: with LLM labels it ends at F1 0.969 against random's 0.954 (10/10 seeds at 600 labels), and across routing thresholds it gives the best detector for every level of human effort.
 4. **Routing restores the advantage cheaply.** With low-confidence texts sent to a human, uncertainty sampling's near-duplicates fall back to 23 and its advantage over random returns (+0.011, Holm p < 0.0001). To reach 99% of the ceiling it needs 41 human labels at threshold 0.9 and 27 at 0.8, against 260 for random sampling with all-human labels.
 5. **A labeler's blind spot survives into the detector.** On the held-out lab attacks, uncertainty sampling with LLM labels scores 0.305 lower F1 than random (0/10 seeds), and at threshold 0.8, where in-distribution F1 is already equivalent to dataset labels, it is still 0.058 lower. In-distribution scores do not reveal it.
 6. **Detectors learn the form of an attack, not its intent.** Document payloads that address the AI explicitly are caught every time; direct attacks disguised as ordinary requests (a question with an extra line, a translation, a fill-in-the-blank, string splitting, a fake notice) are missed on every seed, by every detector, including the one trained on all 8,084 labels.
@@ -71,3 +71,17 @@ One correction made during analysis: an earlier note said LLM labels *reverse* u
 - Make uncertainty sampling noise-aware: penalise near-duplicates of already-queried texts, or re-query texts whose labels the detector consistently contradicts.
 - Measure human labeling time per text, so the cost comparison is in minutes rather than labels.
 - Test on attacks disguised as ordinary requests, the class every detector here missed.
+
+## 8. Figures
+
+All in `results/figures/`; every one is regenerated from the results files by the script named.
+
+| Figure | Shows | Script |
+|---|---|---|
+| `headline_curves.png` | Learning curves for random, uncertainty and hybrid under the three labelers | `analysis.py` |
+| `curves_perfect.png`, `curves_llm.png`, `curves_routed90.png` | All four strategies per labeler, on the test set and on test texts with no close pool match | `plot_curves.py` |
+| `labeler_calibration.png` | The labeler's accuracy by its own confidence, and what routing at 0.9 keeps | `final_figures.py` |
+| `feedback_loop.png` | Wrong labels by direction and near-copies in each strategy's 600 labels | `final_figures.py` |
+| `threshold_sweep.png` | Human share of labels against final F1, across routing thresholds | `sweep_threshold.py` |
+| `human_labels_to_target.png` | Human labels needed to reach 99% of the full-data F1 | `final_figures.py` |
+| `transfer_recall.png` | Recall on the test set and on the outside attack sets, by attack type | `final_figures.py` |

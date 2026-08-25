@@ -20,10 +20,8 @@ import pandas as pd  # noqa: E402
 from detect.config import RESULTS  # noqa: E402
 from detect.curve import CEILING_F1, CEILING_FAR_F1  # noqa: E402
 from detect.strategies import STRATEGIES  # noqa: E402
+from detect.style import COLORS, DPI, INK, INK2, SURFACE, apply, tidy  # noqa: E402
 
-# validated categorical slots 1-4, light surface (adjacent CVD ΔE ≥ 9.1)
-COLORS = {"random": "#2a78d6", "uncertainty": "#eb6834", "diversity": "#1baf7a", "hybrid": "#eda100"}
-SURFACE, INK, INK2, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#e4e3df"
 PANELS = [("test_f1", "Test set", CEILING_F1),
           ("test_far_f1", "Test texts with no close pool match", CEILING_FAR_F1)]
 TITLES = {"perfect": "dataset labels", "llm": "LLM labels"}
@@ -59,12 +57,11 @@ def main() -> int:
     curves = {s: pd.read_csv(f) for s in STRATEGIES
               if (f := RESULTS / "curves" / f"al_{s}_{args.labeler}.csv").exists()}
 
-    plt.rcParams.update({"font.size": 9, "axes.edgecolor": INK2, "axes.labelcolor": INK2,
-                         "xtick.color": INK2, "ytick.color": INK2, "text.color": INK})
+    apply()
     fig, axes = plt.subplots(1, 2, figsize=(11, 4.4), facecolor=SURFACE, sharex=True)
     for ax, (col, title, ceiling) in zip(axes, PANELS):
         ylim = y_range(curves, col, ceiling)
-        ax.set_facecolor(SURFACE)
+        tidy(ax)
         ends = {}
         for s, df in curves.items():
             g = df.groupby("budget")[col]
@@ -83,9 +80,6 @@ def main() -> int:
         ax.set_xlim(20, 600)
         ax.set_ylim(*ylim)
         ax.set_xlabel("labels used")
-        ax.grid(axis="y", color=GRID, linewidth=0.8)
-        for side in ("top", "right"):
-            ax.spines[side].set_visible(False)
     axes[0].set_ylabel("F1, injection class (mean of 10 seeds, band = ±1 std)")
     handles, names = axes[0].get_legend_handles_labels()
     fig.legend(handles, names, loc="upper right", ncol=len(names), frameon=False, fontsize=8.5,
@@ -97,7 +91,7 @@ def main() -> int:
     out = RESULTS / "figures"
     out.mkdir(parents=True, exist_ok=True)
     path = out / f"curves_{args.labeler}.png"
-    fig.savefig(path, dpi=160, facecolor=SURFACE)
+    fig.savefig(path, dpi=DPI, facecolor=SURFACE)
     print(f"wrote {path}")
     return 0
 

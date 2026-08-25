@@ -23,10 +23,9 @@ import pandas as pd  # noqa: E402
 from detect.config import RESULTS, ROOT  # noqa: E402
 from detect.curve import median_censored, summarise  # noqa: E402
 from detect.strategies import STRATEGIES  # noqa: E402
+from detect.style import COLORS, DPI, INK2, SURFACE, apply, tidy  # noqa: E402
 
 TAUS = [0.6, 0.7, 0.8, 0.9, 0.95, 0.99]
-COLORS = {"random": "#2a78d6", "uncertainty": "#eb6834", "diversity": "#1baf7a", "hybrid": "#eda100"}
-SURFACE, INK, INK2, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#e4e3df"
 
 
 def ensure_run(strategy: str, labeler: str) -> pd.DataFrame:
@@ -59,10 +58,9 @@ TAU_LABEL_OFFSET = {"random": (2, -11), "uncertainty": (5, -2), "hybrid": (-4, 6
 
 
 def plot(table: pd.DataFrame, path: Path) -> None:
-    plt.rcParams.update({"font.size": 9, "axes.edgecolor": INK2, "axes.labelcolor": INK2,
-                         "xtick.color": INK2, "ytick.color": INK2, "text.color": INK})
+    apply()
     fig, ax = plt.subplots(figsize=(7.5, 4.6), facecolor=SURFACE)
-    ax.set_facecolor(SURFACE)
+    tidy(ax, "both")
     for s in PLOTTED:
         g = table[table.strategy == s].sort_values("human_pct")
         ax.plot(g.human_pct, g.f1_600, color=COLORS[s], linewidth=2, marker="o", markersize=5, label=s)
@@ -77,12 +75,9 @@ def plot(table: pd.DataFrame, path: Path) -> None:
     ax.set_title("Human effort vs detector quality, by routing threshold\n"
                  "(diversity stays below 0.95 at every threshold; see the table)",
                  loc="left", fontsize=10)
-    ax.grid(color=GRID, linewidth=0.8)
-    for side in ("top", "right"):
-        ax.spines[side].set_visible(False)
     ax.legend(frameon=False, fontsize=8.5, loc="lower right")
     fig.tight_layout()
-    fig.savefig(path, dpi=160, facecolor=SURFACE)
+    fig.savefig(path, dpi=DPI, facecolor=SURFACE)
 
 
 def main() -> int:
