@@ -29,6 +29,12 @@ PANELS = [("test_f1", "Test set", CEILING_F1),
 TITLES = {"perfect": "dataset labels", "llm": "LLM labels"}
 
 
+def title_for(labeler: str) -> str:
+    if labeler.startswith("routed"):
+        return f"LLM labels, human below confidence {int(labeler[6:]) / 100:g}"
+    return TITLES.get(labeler, labeler)
+
+
 def y_range(curves: dict, col: str, ceiling: float) -> tuple[float, float]:
     """From just below the lowest mean (after the first round) to just above the ceiling."""
     lows = [df[df.budget >= 40].groupby("budget")[col].mean().min() for df in curves.values()]
@@ -84,7 +90,7 @@ def main() -> int:
     handles, names = axes[0].get_legend_handles_labels()
     fig.legend(handles, names, loc="upper right", ncol=len(names), frameon=False, fontsize=8.5,
                bbox_to_anchor=(0.96, 1.0))
-    fig.suptitle(f"Active learning vs random labeling ({TITLES.get(args.labeler, args.labeler)})",
+    fig.suptitle(f"Active learning vs random labeling ({title_for(args.labeler)})",
                  x=0.06, ha="left", fontsize=11, color=INK)
     fig.tight_layout(rect=(0, 0, 0.96, 1))
 

@@ -1,5 +1,5 @@
-strategy,target_95,target_95_reached,test_99,test_99_reached,far_99,far_99_reached,auc_mean,auc_std,auc_wins_vs_random,f1_at_40,f1_at_100,f1_at_200,f1_at_600,far_f1_at_600,deepset_f1_at_600,deepset_auroc_at_600,lab_f1_at_600,batch_cos,batch_injection_pct,wrong_label_missed_injection,wrong_label_false_injection,near_copies_in_labeled_set
-random,60,10,> 600,0,> 600,0,0.9497,0.0121,0,0.924,0.945,0.953,0.954,0.898,0.136,0.878,0.817,0.519,29.8,27.1,24.4,22.0
-uncertainty,40,10,> 600,0,> 600,2,0.9415,0.006,1,0.93,0.935,0.942,0.944,0.917,0.103,0.882,0.512,0.598,69.9,175.1,41.2,103.8
-diversity,90,6,> 600,0,> 600,0,0.871,0.0349,0,0.902,0.878,0.895,0.851,0.711,0.343,0.922,0.87,0.455,5.9,9.7,24.1,0.4
-hybrid,80,10,450,8,230,10,0.9537,0.0076,6,0.916,0.925,0.956,0.969,0.942,0.087,0.892,0.709,0.552,41.8,99.3,57.8,0.4
+strategy,target_95,target_95_reached,test_99,test_99_reached,far_99,far_99_reached,target_95_human,target_95_human_reached,test_99_human,test_99_human_reached,far_99_human,far_99_human_reached,auc_mean,auc_std,auc_wins_vs_random,f1_at_40,f1_at_100,f1_at_200,f1_at_600,far_f1_at_600,deepset_f1_at_600,deepset_auroc_at_600,lab_f1_at_600,batch_cos,batch_injection_pct,wrong_label_missed_injection,wrong_label_false_injection,near_copies_in_labeled_set
+random,60,10,> 600,0,> 600,0,0,10,> 600,0,> 600,0,0.9497,0.0121,0,0.924,0.945,0.953,0.954,0.898,0.136,0.878,0.817,0.519,29.8,27.1,24.4,22.0
+uncertainty,40,10,> 600,0,> 600,2,0,10,> 600,0,> 600,2,0.9415,0.006,1,0.93,0.935,0.942,0.944,0.917,0.103,0.882,0.512,0.598,69.9,175.1,41.2,103.8
+diversity,90,6,> 600,0,> 600,0,0,6,> 600,0,> 600,0,0.871,0.0349,0,0.902,0.878,0.895,0.851,0.711,0.343,0.922,0.87,0.455,5.9,9.7,24.1,0.4
+hybrid,80,10,450,8,230,10,0,10,0,8,0,10,0.9537,0.0076,6,0.916,0.925,0.956,0.969,0.942,0.087,0.892,0.709,0.552,41.8,99.3,57.8,0.4

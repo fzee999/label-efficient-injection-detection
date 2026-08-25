@@ -1,0 +1,5 @@
+strategy,target_95,target_95_reached,test_99,test_99_reached,far_99,far_99_reached,target_95_human,target_95_human_reached,test_99_human,test_99_human_reached,far_99_human,far_99_human_reached,auc_mean,auc_std,auc_wins_vs_random,f1_at_40,f1_at_100,f1_at_200,f1_at_600,far_f1_at_600,deepset_f1_at_600,deepset_auroc_at_600,lab_f1_at_600,batch_cos,batch_injection_pct,wrong_label_missed_injection,wrong_label_false_injection,near_copies_in_labeled_set
+random,40,10,270,10,360,6,14.5,10,98,10,132,6,0.9704,0.0031,0,0.939,0.963,0.972,0.977,0.936,0.159,0.856,0.852,0.519,29.8,2.7,1.7,22.0
+uncertainty,40,10,80,10,120,10,15.5,10,41,10,66,10,0.9814,0.0014,10,0.944,0.977,0.984,0.986,0.957,0.159,0.886,0.85,0.556,40.5,10.9,13.4,22.8
+diversity,40,10,> 600,0,> 600,0,13,10,> 600,0,> 600,0,0.947,0.0087,0,0.92,0.946,0.954,0.948,0.872,0.445,0.89,0.904,0.455,5.9,3.2,2.0,0.4
+hybrid,50,10,120,10,120,10,18,10,60.5,10,60.5,10,0.9793,0.0026,10,0.933,0.963,0.983,0.988,0.964,0.185,0.896,0.872,0.543,26.6,6.1,11.5,0.4

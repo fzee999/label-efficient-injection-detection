@@ -17,11 +17,10 @@ import pandas as pd  # noqa: E402
 from detect.config import RESULTS  # noqa: E402
 from detect.curve import median_censored, summarise  # noqa: E402
 from detect.embed import embeddings  # noqa: E402
-from detect.loop import LLMLabeler, PerfectLabeler  # noqa: E402
+from detect.loop import make_labeler  # noqa: E402
 from detect.splits import load_split  # noqa: E402
 from detect.strategies import STRATEGIES  # noqa: E402
 
-LABELERS = {"perfect": PerfectLabeler, "llm": LLMLabeler}
 
 BUDGETS = [40, 100, 200, 600]
 NEAR_COPY = 0.95
@@ -52,7 +51,7 @@ def main() -> int:
               if (f := RESULTS / "curves" / f"al_{s}_{args.labeler}.csv").exists()}
     base = summarise(curves["random"])["auc_20_600"]
     x, y = embeddings("pool"), load_split("pool")["label"].to_numpy()
-    observed = LABELERS[args.labeler](y).y
+    observed = make_labeler(args.labeler, y).y
     rows = []
     for s, df in curves.items():
         sm = summarise(df)
@@ -60,7 +59,7 @@ def main() -> int:
         later = df[df["round"] > 0]
         at600 = df[df.budget == 600]
         row = {"strategy": s}
-        for key in ("target_95", "test_99", "far_99"):
+        for key in ("target_95", "test_99", "far_99", "target_95_human", "test_99_human", "far_99_human"):
             row[key] = median_censored(sm[key])
             row[f"{key}_reached"] = sum(v is not None for v in sm[key])
         row["auc_mean"], row["auc_std"] = round(auc.mean(), 4), round(auc.std(), 4)

@@ -49,6 +49,31 @@ class LLMLabeler:
         return self.y[idx], 0
 
 
+class RoutedLabeler:
+    """The LLM labels; texts it is unsure about (confidence < tau) go to the human."""
+
+    def __init__(self, y: np.ndarray, tau: float = 0.9):
+        llm = LLMLabeler(y)
+        to_human = np.maximum(llm.p, 1 - llm.p) < tau
+        self.y = np.where(to_human, y, llm.y)   # the labels this labeler returns
+        self.to_human = to_human
+        self.name = f"routed{round(tau * 100)}"
+
+    def label(self, idx: np.ndarray) -> tuple[np.ndarray, int]:
+        return self.y[idx], int(self.to_human[idx].sum())
+
+
+def make_labeler(name: str, y: np.ndarray):
+    """'perfect', 'llm', or 'routedNN' (threshold NN/100)."""
+    if name == "perfect":
+        return PerfectLabeler(y)
+    if name == "llm":
+        return LLMLabeler(y)
+    if name.startswith("routed"):
+        return RoutedLabeler(y, int(name[len("routed"):]) / 100)
+    raise ValueError(f"unknown labeler {name!r}")
+
+
 def run(strategy: str, labeler, seed: int, x: np.ndarray, y_true: np.ndarray, sets: dict):
     """One full run. Returns (per-round rows, queried pool rows)."""
     rng = np.random.default_rng(seed)

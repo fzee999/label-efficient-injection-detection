@@ -17,23 +17,21 @@ import pandas as pd  # noqa: E402
 from detect.config import RESULTS, SEEDS  # noqa: E402
 from detect.curve import median_censored, summarise  # noqa: E402
 from detect.embed import embeddings  # noqa: E402
-from detect.loop import LLMLabeler, PerfectLabeler, run  # noqa: E402
+from detect.loop import make_labeler, run  # noqa: E402
 from detect.strategies import STRATEGIES  # noqa: E402
 from detect.model import evaluation_sets  # noqa: E402
 from detect.splits import load_split  # noqa: E402
-
-LABELERS = {"perfect": PerfectLabeler, "llm": LLMLabeler}
 
 
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--strategy", choices=sorted(STRATEGIES), required=True)
-    p.add_argument("--labeler", choices=sorted(LABELERS), default="perfect")
+    p.add_argument("--labeler", default="perfect", help="perfect | llm | routedNN, e.g. routed90")
     args = p.parse_args()
 
     x, y = embeddings("pool"), load_split("pool")["label"].to_numpy()
     sets = evaluation_sets()
-    labeler = LABELERS[args.labeler](y)
+    labeler = make_labeler(args.labeler, y)
 
     rows, queries, t0 = [], [], time.perf_counter()
     for seed in SEEDS:

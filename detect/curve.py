@@ -60,13 +60,16 @@ def median_censored(vals: list) -> str:
 
 
 def summarise(df) -> dict:
-    """Per-seed labels-to-target and curve area for one strategy/labeler."""
-    out = {"target_95": [], **{k: [] for k in SECONDARY_TARGETS}, "auc_20_600": []}
+    """Per-seed labels-to-target, human labels at that point, and curve area."""
+    targets = {"target_95": ("test_f1", TARGET_F1), **SECONDARY_TARGETS}
+    out = {**{k: [] for k in targets}, **{f"{k}_human": [] for k in targets}, "auc_20_600": []}
     for _, g in df.groupby("seed"):
         g = g.sort_values("budget")
         b = g["budget"].tolist()
-        out["target_95"].append(labels_to_target(b, g["test_f1"].tolist()))
-        for key, (col, target) in SECONDARY_TARGETS.items():
-            out[key].append(labels_to_target(b, g[col].tolist(), target))
+        human = dict(zip(b, g["human_labels"])) if "human_labels" in g else dict(zip(b, b))
+        for key, (col, target) in targets.items():
+            hit = labels_to_target(b, g[col].tolist(), target)
+            out[key].append(hit)
+            out[f"{key}_human"].append(int(human[hit]) if hit is not None else None)
         out["auc_20_600"].append(round(curve_area(b, g["test_f1"].tolist()), 4))
     return out
