@@ -1,0 +1,86 @@
+{
+  "target_95": [
+    20,
+    60,
+    20,
+    20,
+    40,
+    40,
+    220,
+    60,
+    60,
+    160
+  ],
+  "test_99": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "far_99": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "target_95_human": [
+    4,
+    10,
+    5,
+    4,
+    8,
+    9,
+    37,
+    8,
+    17,
+    22
+  ],
+  "test_99_human": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "far_99_human": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "auc_20_600": [
+    0.9497,
+    0.9466,
+    0.9441,
+    0.9516,
+    0.9451,
+    0.9451,
+    0.8786,
+    0.9407,
+    0.9435,
+    0.9212
+  ]
+}
