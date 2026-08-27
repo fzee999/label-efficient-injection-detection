@@ -6,6 +6,8 @@ A prompt-injection detector is a classifier, and its cost is the labels: a perso
 
 **Headline:** with correct labels, uncertainty sampling reaches 99% of the full-data detector's F1 with **60 labels instead of 260**, and 600 chosen labels beat all 8,084. With LLM labels that advantage **disappears**: uncertainty sampling keeps asking about the injections the LLM calls benign. Sending only the LLM's low-confidence texts to a person restores it: **27 human labels** reach the same quality that random sampling needs **260** for.
 
+**Paper:** the full write-up, with methods, statistics, every figure and every deviation from the plan, is [paper/label-efficient-injection-detection.pdf](paper/label-efficient-injection-detection.pdf).
+
 ![Learning curves under three labelers](results/figures/headline_curves.png)
 
 ## The question, precisely
@@ -104,6 +106,7 @@ The LLM's labels are committed in `results/labeler/pool_labels.csv` (one row per
 .venv/Scripts/python scripts/transfer.py                      # outside sets
 .venv/Scripts/python scripts/plot_curves.py --labeler perfect # also: llm, routed90
 .venv/Scripts/python scripts/final_figures.py
+.venv/Scripts/python paper/build_paper.py                     # the paper, from the results above
 ```
 
 One configuration at a time: `scripts/run_al.py --strategy {random,uncertainty,diversity,hybrid} --labeler {perfect,llm,routed90,...}`.
@@ -118,6 +121,7 @@ data/ood/         the companion project's attacks and benign texts
 data/sources.json dataset revisions and checksums
 results/          learning curves, query logs, LLM labels, analysis tables, figures
 docs/             the pre-registered study design and the full findings
+paper/            the research paper and the script that builds it
 ```
 
 ## Data and licenses
