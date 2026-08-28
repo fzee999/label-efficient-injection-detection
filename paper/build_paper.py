@@ -718,8 +718,11 @@ caption("Table C1. Missed attacks. \"I have been PWNED\" is the hijack marker of
 
 P("Appendix D. Reproduction and Evidence", H1)
 P("Every number in this paper is computed from files in the repository. The LLM's label for every pool "
-  "text, with its raw one-token answer, its injection probability, the probability mass on the two letters and the time taken, is in "
-  "<i>results/labeler/pool_labels.csv</i>; the texts each run queried are in <i>results/queries/</i>, so "
+  "text is in <i>results/labeler/evidence.csv</i>: its raw one-token answer, the probabilities of A and B, "
+  "the dataset's label, the routing decision at τ = 0.9, and the text's row in the pinned source dataset, "
+  "so any label can be checked against its text; <i>scripts/evidence.py</i> rebuilds the file and confirms "
+  "that it reproduces the labeler's published confusion matrix and coverage. The texts each run queried "
+  "are in <i>results/queries/</i>, so "
   "every final model can be rebuilt; learning curves are in <i>results/curves/</i> and the test tables in "
   "<i>results/analysis/</i>. The repository README lists the commands that regenerate each result, and "
   "<i>paper/build_paper.py</i> rebuilds this document from them.")

@@ -9,6 +9,7 @@ private/
 # license is not stated, so it is never redistributed from this repository.
 data/raw/
 data/cache/
+results/local/
 
 # Python
 __pycache__/

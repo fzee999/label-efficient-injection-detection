@@ -8,6 +8,8 @@ A prompt-injection detector is a classifier, and its cost is the labels: a perso
 
 **Paper:** the full write-up, with methods, statistics, every figure and every deviation from the plan, is [paper/label-efficient-injection-detection.pdf](paper/label-efficient-injection-detection.pdf).
 
+**Evidence:** every one of the LLM's 8,084 labels, with its raw answer, the probability of each letter, the dataset's label and the routing decision, is in [results/labeler/evidence.csv](results/labeler/evidence.csv), with the source row of each text so it can be looked up in the pinned dataset. `scripts/evidence.py` rebuilds it, checks it against the published scores, and writes a readable transcript of every disagreement with the texts to `results/local/` (kept out of the repository, since the dataset's texts are not redistributed).
+
 ![Learning curves under three labelers](results/figures/headline_curves.png)
 
 ## The question, precisely
@@ -96,7 +98,7 @@ ollama create llama3.1:8b-8k -f Modelfile   # Modelfile: FROM llama3.1:8b / PARA
 .venv/Scripts/python scripts/embed_all.py      # embeds pool, test and outside sets once
 ```
 
-The LLM's labels are committed in `results/labeler/pool_labels.csv` (one row per pool text, with its raw answer), so every experiment below reproduces without calling the labeling model. To relabel from scratch, run `scripts/label_pool.py` and then `scripts/labeler_errors.py`.
+The LLM's labels are committed in `results/labeler/pool_labels.csv` (one row per pool text, with its raw answer), so every experiment below reproduces without calling the labeling model. To relabel from scratch, run `scripts/label_pool.py` and then `scripts/labeler_errors.py`; `scripts/evidence.py` checks any set of labels against the published scores.
 
 ```bash
 .venv/Scripts/python scripts/ceiling.py                       # full-data model
